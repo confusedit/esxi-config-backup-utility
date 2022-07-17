@@ -1,7 +1,7 @@
 <#
   Name:           ESXI Config Backup Utility
   Organization:   Confused IT Ltd.
-  Version:        1.0.1
+  Version:        1.0.2
   Author:         Michael Accavallo
   Creation Date:  7/16/2022
 #>
@@ -84,7 +84,7 @@ Write-Host -ForegroundColor White "          #### Manual Flags ####         "
 Write-Host "Use " -NoNewline; Write-Host -ForegroundColor White "-Run" -NoNewline; Write-Host " to manually have the script take backups (no config)."
 Write-Host "Use " -NoNewline; Write-Host -ForegroundColor White "-RunConfig" -NoNewline; Write-Host " to manually have the script take backups (using config)."  
 Write-Host "Use " -NoNewline; Write-Host -ForegroundColor White "-Disable" -NoNewline; Write-Host " to turn off the script."
-Write-Host
+Write-Host "Please wait..."
 Start-Sleep -s 4
 #Installs Azure Module
 if (!(Get-InstalledModule VMware.PowerCLI -ErrorAction SilentlyContinue)) {
