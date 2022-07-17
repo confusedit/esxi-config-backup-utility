@@ -1,7 +1,7 @@
 <#
   Name:           ESXI Config Backup Utility
   Organization:   Confused IT Ltd.
-  Version:        1.0
+  Version:        1.0.1
   Author:         Michael Accavallo
   Creation Date:  7/16/2022
 #>
@@ -85,7 +85,6 @@ Write-Host "Use " -NoNewline; Write-Host -ForegroundColor White "-Run" -NoNewlin
 Write-Host "Use " -NoNewline; Write-Host -ForegroundColor White "-RunConfig" -NoNewline; Write-Host " to manually have the script take backups (using config)."  
 Write-Host "Use " -NoNewline; Write-Host -ForegroundColor White "-Disable" -NoNewline; Write-Host " to turn off the script."
 Write-Host
-Write-Host "Please Wait..."
 Start-Sleep -s 4
 #Installs Azure Module
 if (!(Get-InstalledModule VMware.PowerCLI -ErrorAction SilentlyContinue)) {
@@ -226,9 +225,9 @@ function Start-Backups($RunConfig) {
         if($Retention -ne "0") {
             if((Test-Path -Path "$FullPath\ESXI-Backups\")) {
                $dirCount = (Get-ChildItem -Path "$FullPath\ESXI-Backups" -Directory -Force).Count
-               if ($dirCount -gt $Retention) {
+               if ($dirCount -ge $Retention) {
                     $qtyToDelete = $dirCount - $Retention
-                    Get-ChildItem "$FullPath\ESXI-Backups" | Sort-Object { $_.Name -as [Version] } | Select-Object -Last $qtyToDelete | Remove-Item -Recurse -confirm:$false -Force
+                    Get-ChildItem "$FullPath\ESXI-Backups" | Sort-Object -Descending -Property CreationTime | Select-Object -Last $qtyToDelete | Remove-Item -Recurse -confirm:$false -Force
                 }
             }
         }
